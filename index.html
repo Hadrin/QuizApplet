@@ -12,21 +12,24 @@
 
 <body>
     <header>
-        <p id="timer"></p>
+        <p class="center" id="timer"></p>
     </header>
     <section>
         <h1 id="status"></h1>
         <p id="question"></p>
         <div id="buttonContainer">
-            <button id="b1" data-number="1" type="button"></button>
-            <button id="b2" data-number="2" type="button"></button>
-            <button id="b3" data-number="3" type="button"></button>
-            <button id="b4" data-number="4" type="button"></button>
+            <button id="b1" data-number="1" type="button" hidden></button>
+            <button id="b2" data-number="2" type="button" hidden></button>
+            <button id="b3" data-number="3" type="button" hidden></button>
+            <button id="b4" data-number="4" type="button" hidden></button>
         </div>
     </section>
     <section>
         <button id="begin" type="button">Begin Quiz</button>
+        <input type="text" id="initials" minlength="2" maxlength="3" placeholder="Enter Initials" hidden>
+        <button id="submit" type="button" hidden>Submit Score</button>
     </section>
+
 
 </body>
 

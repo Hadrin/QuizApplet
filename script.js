@@ -7,10 +7,17 @@ var option2 = document.getElementById("b2");
 var option3 = document.getElementById("b3");
 var option4 = document.getElementById("b4");
 var container = document.getElementById("buttonContainer");
+var initials = document.getElementById("initials");
+var submit = document.getElementById("submit");
 
 var correctAnswer = "0";
 var score = 0;
-var timeLeft = 60;
+var timeLeft = 30;
+var currentQuestion = -1;
+
+var loadedHighScore = localStorage.getItem("highScore");
+var loadedHighIni = localStorage.getItem("highIni");
+statusText.textContent = ("Last Score: " + loadedHighScore + " by " + loadedHighIni);
 
 function countdown() {
 
@@ -22,6 +29,7 @@ function countdown() {
             
         }
         if (timeLeft == 0) {
+            timerEl.textContent = timeLeft.toString();
             endGame();
             clearInterval(timeInterval);
         }
@@ -34,7 +42,11 @@ startButton.addEventListener("click", function (event) {
     event.preventDefault();
     startButton.remove();
     countdown();
-    newQuestion(Q1);
+    newQuestion();
+    option1.removeAttribute("hidden");
+    option2.removeAttribute("hidden");
+    option3.removeAttribute("hidden");
+    option4.removeAttribute("hidden");
 })
 
 container.addEventListener("click", function (event) {
@@ -44,13 +56,29 @@ container.addEventListener("click", function (event) {
 })
 
 //TODO: Generates a new question from data
-function newQuestion(q) {
-question.textContent = q.question;
-option1.textContent = q.choice1;
-option2.textContent = q.choice2;
-option3.textContent = q.choice3;
-option4.textContent = q.choice4;
-correctAnswer = q.correct;
+function newQuestion() {
+
+//First, select a question at random
+var n = 0
+n = Math.floor(Math.random() * Q.length);
+
+//Ensure we do not repeat the current question
+if(n == currentQuestion && !(n == 0)){
+    console.log("repeat avoided--");
+    n--;
+} else if(n == currentQuestion){
+    console.log("repeat avoided++");
+    n++;
+}
+currentQuestion = n;
+
+//Load question data into page
+question.textContent = Q[n].question;
+option1.textContent = Q[n].choice1;
+option2.textContent = Q[n].choice2;
+option3.textContent = Q[n].choice3;
+option4.textContent = Q[n].choice4;
+correctAnswer = Q[n].correct;
 }
 
 //Takes the user's input and checks if it is correct
@@ -70,8 +98,30 @@ function checkAnswer(i) {
 
 //TODO: Ends the game when time is up
 function endGame() {
-
+    option1.setAttribute("hidden", "true");
+    option2.setAttribute("hidden", "true");
+    option3.setAttribute("hidden", "true");
+    option4.setAttribute("hidden", "true");
+    question.setAttribute("hidden", "true");
+    timerEl.setAttribute("hidden", "true");
+    statusText.style.color = "#FFFFFF";
+    statusText.textContent = ("Your final score is " + score);
+    initials.removeAttribute("hidden");
+    submit.removeAttribute("hidden");
 }
+
+//Handles writing high score to local storage
+submit.addEventListener("click", function(event){
+    event.preventDefault();
+    var ini = initials.value;
+
+    localStorage.clear();
+
+    localStorage.setItem("highScore", score);
+    localStorage.setItem("highIni", ini);
+    initials.setAttribute("hidden", "true");
+    submit.setAttribute("hidden", "true");
+})
 
 //TODO: Question Data
 let Q1 = {
@@ -128,3 +178,5 @@ let Q6 = {
     choice4: "invariable",
     correct: "3"
 };
+
+let Q = [Q1, Q2, Q3, Q4, Q5, Q6];
