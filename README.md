@@ -14,3 +14,5 @@ The last stored score will be displayed on the landing screen
 Picture of landing screen: https://i.imgur.com/GrK7FOH.png
 
 Picture of quiz in action: https://i.imgur.com/Kz5R0Kl.png
+
+Link to deployed app: https://hadrin.github.io/QuizApplet/
